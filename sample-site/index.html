@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <title>Search Example</title>
+</head>
+<body>
+
+
+    <div class= "container">
+      <div class="row">
+        <div class="col-sm-4">
+          <h1>Image Search</h1>
+          <input id="search" autocomplete="off" placeholder="Search">
+        </div>
+        <div  class="col-sm-4" id="app">
+       
+            <h1>S3 Uploader </h1>
+
+                <div v-if="!image">
+                  <h2>Select an image</h2>
+                  <input type="file" @change="onFileChange">
+                </div>
+                <div v-else>
+                  <img :src="image" />
+                  <button v-if="!uploadURL" @click="removeImage">Remove image</button>
+                  <button v-if="!uploadURL" @click="uploadImage">Upload image</button>
+                </div>
+              
+            
+        </div>
+      <div class= "row">
+            <div class="col-sm-12">
+              <div id="results"></div>
+              <p id="noresults">No results. Try another search term.</p>
+              <p id="loading">Getting results...</p>
+            </div>
+
+      </div>      
+        
+              
+           
+       </div>
+    
+    </div>
+       
+    <script type = "text/javascript">  
+      async function myfunction() {   
+        var e = window.event,
+       btn = e.target || e.srcElement;
+       let response = await $.get('https://33e0t17khk.execute-api.us-east-1.amazonaws.com/delete', { id: btn.id }, 'json');
+    // Get the part of the JSON response that we care about
+    //console.log(response)
+    location.reload(); 
+
+      
+      
+
+      }
+      </script>  
+      
+      
+   
+     
+  
+
+
+
+  
+ 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="scripts/search.js"></script>
+<script src="scripts/upload.js"></script>
+</body>
+</html>
+
+

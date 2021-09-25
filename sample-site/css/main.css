@@ -1,0 +1,70 @@
+#noresults, #loading {
+  display: none;
+}
+
+body {
+  margin: 2rem;
+}
+
+h1, h2, input, p {
+  font-weight: 400;
+  font-family: sans-serif;
+  margin: 1rem 0;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+input, p {
+  font-size: 1rem;
+}
+
+input {
+  padding: .5rem;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: SteelBlue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 7.5rem;
+  vertical-align: top;
+  margin: 0 2rem 2rem 0;
+}
+
+.result {
+  display: flex;
+}
+
+
+
+#app {
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  transition: all 0.2s;
+  text-align: center;
+
+}
+#logo {
+  width: 100px;
+}
+h2 {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+h1, h2 {
+  font-weight: normal;
+  margin-bottom: 15px;
+}
+a {
+  color: #42b983;
+}

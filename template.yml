@@ -1,0 +1,124 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  aws-project
+
+
+
+Resources:
+
+  MyApi:
+    Type: "AWS::Serverless::HttpApi"
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowHeaders:
+          - "*"
+        AllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+
+  AddImages:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: uploadImage.handler
+      CodeUri: ./src/handlers
+      Runtime: nodejs14.x
+      Role: arn:aws:iam::738897335103:role/AddImagesRole
+      Environment:
+        Variables:
+          BucketName: !Ref AppBucket
+      Policies:
+        - S3CrudPolicy:
+            BucketName: !Ref AppBucket
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /image
+            Method: GET 
+            ApiId: !Ref MyApi
+    
+  ImageRecognition:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: detectImage.handler
+      CodeUri: ./src/handlers
+      Runtime: nodejs14.x
+      Role: arn:aws:iam::738897335103:role/ImageRecognitionRole
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Sub "${AWS::StackName}-${AWS::Region}-${AWS::AccountId}"
+        - RekognitionDetectOnlyPolicy: {}
+      PermissionsBoundary: arn:aws:iam::738897335103:policy/ScopePermissions
+            
+      Events:
+        S3Event:
+          Type: S3
+          Properties: 
+            Bucket: !Ref AppBucket
+            Events: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: '.jpg'
+
+  SearchImages:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: searchImage.handler
+      CodeUri: ./src/handlers
+      Runtime: nodejs14.x
+      Role: arn:aws:iam::738897335103:role/ImageRecognitionRole   
+      Events:
+        SearchEvent:
+          Type: HttpApi
+          Properties:
+            Path: /search
+            Method: GET 
+            ApiId: !Ref MyApi
+
+  DeleteImages:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: deleteImage.handler
+      CodeUri: ./src/handlers
+      Runtime: nodejs14.x
+      Role: arn:aws:iam::738897335103:role/ImageRecognitionRole   
+      Events:
+        deleteEvent:
+          Type: HttpApi
+          Properties:
+            Path: /delete
+            Method: GET
+            ApiId: !Ref MyApi
+
+
+  AppBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName : !Sub "${AWS::StackName}-${AWS::Region}-${AWS::AccountId}"
+      CorsConfiguration:
+        CorsRules:
+        - AllowedHeaders:
+            - "*"
+          AllowedMethods:
+            - GET
+            - PUT
+            - HEAD
+          AllowedOrigins:
+            - "*"
+  
+
+Outputs:
+  APIendpoint:
+    Description: "HTTP API endpoint URL"
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com"
+  S3UploadBucketName:
+    Description: "S3 bucket for application uploads"
+    Value: !Ref 'AppBucket'   
+  

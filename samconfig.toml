@@ -1,0 +1,11 @@
+version=0.1
+
+
+[default.deploy.parameters]
+stack_name = "app-edgar-sam"
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = false    
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-15458n6gia3ju"
+s3_prefix = "app-edgar-sam"
+region = "us-east-1"
+image_repositories = []

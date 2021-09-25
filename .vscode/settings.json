@@ -1,0 +1,35 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/melodic/lib/python2.7/dist-packages",
+        "/home/ed/proyecto/Tensorflow/models/research",
+        "/home/ed/proyecto/Tensorflow/models/research/slim"
+    ],
+    "serverlessConsole.services": [
+        {
+            "type": "cloudformation",
+            "title": "ed",
+            "timeOffsetInMs": 0,
+            "awsProfile": "default",
+            "stacks": [
+                {
+                    "region": "us-east-1",
+                    "stackName": "app-edgar-sam",
+                    "stage": "dev"
+                }
+            ]
+        },
+        {
+            "type": "cloudformation",
+            "title": "ed2",
+            "timeOffsetInMs": 0,
+            "awsProfile": "default",
+            "stacks": [
+                {
+                    "region": "us-east-1",
+                    "stackName": "app-edgar-sam",
+                    "stage": "dev"
+                }
+            ]
+        }
+    ]
+}
